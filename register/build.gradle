@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+def androidID = rootProject.ext.android
+android {
+    namespace 'com.dfg.register'
+    compileSdk 33
+
+    defaultConfig {
+        // applicationId appID.register // 有appid 能够独立运行
+        if(isRelease){ // 能够独立运行，必须要有appID
+            applicationId appID.register // 如果是集成化模式不能台 application Id
+        }
+        minSdk androidID.minSdk
+        targetSdk androidID.targetSdk
+        versionCode androidID.versionCode
+        versionName androidID.versionName
+
+        testInstrumentationRunner androidID.testInstrumentationRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    /*implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'*/
+    // 使用循环遍历
+    dependenciesID.each{k,v -> implementation v}
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

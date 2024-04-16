@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+}
+def androidID = rootProject.ext.android
+android {
+    namespace 'com.dfg.modularproject'
+    compileSdk androidID.compileSdk
+
+    defaultConfig {
+        applicationId appID.app
+        minSdk androidID.minSdk
+        targetSdk androidID.targetSdk
+        versionCode androidID.versionCode
+        versionName androidID.versionName
+
+        testInstrumentationRunner androidID.testInstrumentationRunner
+
+        // 让我的Java代码也可以用
+        // 给Java代码暴漏、标记、正式环境和 测试环境 的标记
+        // 组件化和集化 的时候需要
+        buildConfigField("boolean","isRelease",String.valueOf(isRelease))
+    }
+    buildFeatures {
+        buildConfig true
+    }
+
+    buildTypes {
+        // 当打包debug的时候，会去调用 dfg.gradle 的 url
+        debug{
+            buildConfigField("String","debug","\"${url.debug}\"")
+        }
+        release {
+            buildConfigField("String","release","\"${url.release}\"")
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    /*implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'*/
+    // 使用循环遍历
+    dependenciesID.each{k,v -> implementation v}
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //不是组件时才依赖
+    if (isRelease) {
+        // 依附app壳
+        implementation project(path: ':login')
+        implementation project(path: ':register')
+    }else{
+        // 不能依附，因为 login register 都能独立运行啊，依附不了，否则报错
+    }
+}

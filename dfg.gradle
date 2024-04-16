@@ -1,0 +1,42 @@
+//项目工程配置
+ext {
+
+    // 正式环境 true 和 测试环境 false
+    isRelease = false
+
+    // 正式服务器地址和测试服务器地址
+    url = [
+            "debug"  : "https://192.18",
+            "release": "https://192.16"
+    ]
+
+    //基本信息配置
+    android = [
+            compileSdk               : 33,    //编译SDK版本
+            minSdk                   : 21,    //最低运行SDK版本
+            targetSdk                : 33,    //目标SDK版本
+            versionCode              : 1,     //项目版本号
+            versionName              : "1.0", //项目版本名
+            isApplication            : true,   //是否为Application
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
+    ]
+
+    appID = [
+            app  : 'com.dfg.modularproject',
+            login: 'com.dfg.login',
+            register:'com.dfg.register'
+    ]
+
+    //编译JDK配置
+    compileOptions = [
+            sourceCompatibility: JavaVersion.VERSION_1_8,
+            targetCompatibility: JavaVersion.VERSION_1_8,
+    ]
+
+    //依赖配置
+    dependenciesID = [
+            appcompat       : 'androidx.appcompat:appcompat:1.6.1',
+            material        : 'com.google.android.material:material:1.8.0',
+            constraintlayout: 'androidx.constraintlayout:constraintlayout:2.1.4'
+    ]
+}
